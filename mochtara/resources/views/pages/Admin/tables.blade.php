@@ -53,10 +53,10 @@
                       </a>
                     </li>
                     <li>
-                      <a href="/arabe">
-                        <i class="tim-icons icon-world"></i>
-                        <p>RTL Support</p>
-                      </a>
+                        <a href="/new_product">
+                            <i class="fas fa-box"></i>
+                            <p>Product</p>
+                        </a>
                     </li>
                   </ul>
             </div>
@@ -83,13 +83,6 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navigation">
                         <ul class="navbar-nav ml-auto">
-                            <li class="search-bar input-group">
-                                <button class="btn btn-link" id="search-button" data-toggle="modal"
-                                    data-target="#searchModal"><i class="tim-icons icon-zoom-split"></i>
-                                    <span class="d-lg-none d-md-block">Search</span>
-                                </button>
-                            </li>
-                            
                             <li class="dropdown nav-item">
                                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                                     <div class="photo">
@@ -157,20 +150,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach($users as $user)
                                             <tr>
                                                 <td class="text-center">
-                                                    Dakota Rice
+                                                    {{ $user->name }}
                                                 </td>
                                                 <td class="text-center">
-                                                    khawlakha@gmail.com
+                                                    {{ $user->email }}
                                                 </td>
                                                 <td class="text-center">
                                                     3
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-danger btn-block"> Supprimer </button>
+                                                    <form action="{{ route('user.delete', $user->id) }}" method="GET">
+                                                        @csrf
+                                                    <button type="submit" class="btn btn-danger btn-block"> Supprimer </button>
+                                                </form>
                                                 </td>
                                             </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

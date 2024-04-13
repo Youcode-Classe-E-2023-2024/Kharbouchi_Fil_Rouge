@@ -4,15 +4,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="assets-dash/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="img/logo.png" href="../assets/img/favicon.png">
     <title>Mochtara</title>
+
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+
+<!-- Lien CDN pour le JavaScript de Bootstrap Select -->
     <link href="assets-dash/css/nucleo-icons.css" rel="stylesheet" />
     <link href="assets-dash/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
     <link href="assets-dash/demo/demo.css" rel="stylesheet" />
@@ -24,7 +25,7 @@
             <div class="sidebar-wrapper">
                 <div class="logo">
                     <a href="/admin" class="simple-text logo-mini">
-
+                        <img src="img/logo.png" alt="">
                     </a>
                     <a href="/admin" class="simple-text logo-normal">
                         Mochtara
@@ -43,7 +44,7 @@
                             <p>User Profile</p>
                         </a>
                     </li>
-                    <li class="active ">
+                    <li>
                         <a href="/Categories">
                             <i class="fas fa-tshirt"></i>
                             <p>Categories</p>
@@ -55,12 +56,12 @@
                             <p>Table Clients/Commande</p>
                         </a>
                     </li>
-                    <li>
-                        <a href="/new_product">
-                            <i class="fas fa-box"></i>
-                            <p>Product</p>
-                        </a>
-                    </li>
+                    <li class="active ">
+                            <a href="/new_product">
+                                <i class="fas fa-box"></i>
+                                <p>Product</p>
+                            </a>
+                        </li>
                 </ul>
             </div>
         </div>
@@ -76,7 +77,7 @@
                                 <span class="navbar-toggler-bar bar3"></span>
                             </button>
                         </div>
-                        <a class="navbar-brand" href="/Categories">Categories</a>
+                        <a class="navbar-brand" href="/admin">Dashboard</a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -127,89 +128,79 @@
             </div>
             <!-- End Navbar -->
             <div class="content">
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Ajouter Produit</h5>
+                                  <button type="button" class="close" data-dismiss="modal"
+                                      aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                <form action="{{ route('addProduct') }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                  <div>
+                                      <div class="mb-4 d-flex justify-content-center">
+                                          <img id="selectedImage"
+                                              src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                                              alt="example placeholder" style="width: 300px;" />
+                                      </div>
+                                      <div class="d-flex justify-content-center">
+                                          <div class="btn btn-primary btn-rounded">
+                                              <label class="form-label text-white m-1"
+                                                  for="customFile1">Choose file</label>
+                                              <input type="file" class="form-control d-none"
+                                                  id="customFile1" name="image"
+                                                  onchange="displaySelectedImage(event, 'selectedImage')" />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="exampleInputEmail1"
+                                              style="color:black">Name</label>
+                                          <input type="text" class="form-control"
+                                              id="exampleInputEmail1" name="name" aria-describedby="emailHelp"
+                                              placeholder="Enter Name" style="color: black;">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="categorySelect" style="color: black;">Category</label>
+                                        <select class="form-control" id="categorySelect" name="category_id">
+                                            <option value="">Select a category</option>
+                                            @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="priceInput" style="color: black;">Price</label>
+                                        <input type="number" class="form-control" id="priceInput" name="price"
+                                            placeholder="Enter price" style="color: black;">
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary"
+                                      data-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Ajouter
+                                      Produit</button>
+                              </div>
+                          </div>
+                        </form>
+                  </div>
+              </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card ">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h4 class="card-title mb-0">Categories</h4>
-                                <button type="button" class="btn btn-info btn-circle btn-xl" data-toggle="modal"
-                                    data-target="#exampleModal">
+                                <h4 class="card-title">Table Product</h4>
+                                <a href="#"><button type="button" class="btn btn-info btn-circle btn-xl" data-toggle="modal"
+                                    data-target="#exampleModal" >
                                     <i class="fa fa-plus"></i>
-                                </button>
+                                </button></a>
                             </div>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <form action="{{ route('add.categorie') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Ajouter Produit</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div>
-                                                    <div class="mb-4 d-flex justify-content-center">
-                                                        <img id="selectedImage"
-                                                            src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                                                            alt="example placeholder" style="width: 300px;" />
-                                                    </div>
-                                                    <div class="d-flex justify-content-center">
-                                                        <div class="btn btn-primary btn-rounded">
-                                                            <label class="form-label text-white m-1"
-                                                                for="customFile1">Choose file</label>
-                                                            <input type="file" class="form-control d-none"
-                                                                id="customFile1" name="image"
-                                                                onchange="displaySelectedImage(event, 'selectedImage')" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1"
-                                                            style="color:black">Name</label>
-                                                        <input type="text" class="form-control"
-                                                            id="exampleInputEmail1" name="name" aria-describedby="emailHelp"
-                                                            placeholder="Enter Name" style="color: black;">
-                                                    </div>
-                                                    <!-- Multi Select for Colors -->
-                                                    <div class="form-group">
-                                                        <label for="colorSelect" style="color:black">Colors</label>
-                                                        <select class="form-control" id="colorSelect" name="colors[]"
-                                                            style="color: black;width:100%;" multiple>
-                                                            <option>Black</option>
-                                                            <option>Blue</option>
-                                                            <option>withe</option>
-                                                            <option>Yellow</option>
-                                                        </select>
-                                                    </div>
-                                                    <!-- Multi Select for Sizes -->
-                                                    <div class="form-group mt-3">
-                                                        <label for="sizeSelect" style="color:black">Sizes</label>
-                                                        <select class="form-control" id="sizeSelect" name="sizes[]"
-                                                            style="color: black;width:100%;" multiple>
-                                                            <option>S</option>
-                                                            <option>M</option>
-                                                            <option>L</option>
-                                                            <option>XL</option>
-                                                            <option>2XL</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Ajouter
-                                                    Produit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table tablesorter " id="">
@@ -218,97 +209,68 @@
                                                 <th class="text-center">
                                                     image
                                                 </th>
-                                                <th class="text-center">
-                                                    name
-                                                </th>
-                                                <th class="text-center">
-                                                    Couleurs
-                                                </th>
-                                                <th class="text-center">
-                                                    Sizes
-                                                </th>
-                                                <th class="text-center">
-                                                    Supprimer
-                                                </th>
-
-                                            </tr>
-                                        </thead>               
-                                            <tbody>
-                                                @foreach($categories as $category)
-                                                <tr>
-                                                    <td class="text-center">
-                                                        <img src="{{ asset('storage/' . $category->image) }}" class="" alt="{{ $category->name }}"
-                                                            style="height:50px;width:50px;">
-                                                    </td>
-                                                    <td class="text-center">{{ $category->name }}</td>
-                                                    <td class="text-center">
-                                                        <select class="selectpicker">
-                                                            <optgroup label="Colors">
-                                                                @foreach(json_decode($category->colors) as $color)
-                                                                <option>{{ $color }}</option>
-                                                                @endforeach
-                                                            </optgroup>
-                                                        </select>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <select class="selectpicker">
-                                                            <optgroup label="Sizes">
-                                                                @foreach(json_decode($category->sizes) as $size)
-                                                                <option>{{ $size }}</option>
-                                                                @endforeach
-                                                            </optgroup>
-                                                        </select>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <form action="{{ route('categories.delete', $category) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?');">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-block"> Supprimer </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card ">
-                            <div class="card-header">
-                                <h4 class="card-title">Table designs</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table tablesorter " id="">
-                                        <thead class=" text-primary">
-                                            <tr>
                                                 <th class="text-center">
                                                     Name
                                                 </th>
                                                 <th class="text-center">
-                                                    image
+                                                    Categorie
                                                 </th>
                                                 <th class="text-center">
-                                                    Prix
+                                                  Prix
                                                 </th>
+                                                <th class="text-center">
+                                                    Gérer
+                                                  </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($designs as $design)
+                                            @foreach ($products as $product)
                                             <tr>
                                                 <td class="text-center">
-                                                    {{$design->name}}
+                                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="height:50px;width:50px;">
+
                                                 </td>
                                                 <td class="text-center">
-                                                    <img src="{{ asset('storage/' . $design->img) }}" class="" alt="Cinque Terre"
-                                                        style="height:50px;width:50px;">
+                                                    {{ $product->name }} 
                                                 </td>
                                                 <td class="text-center">
-                                                    {{$design->price}}MAD
+                                                    {{ $product->category->name }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $product->price }} MAD
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal{{ $product->id }}">Modifier</a>
+                                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Supprimer</button>
+                                                    </form>
+                                                    
                                                 </td>
                                             </tr>
+                                            <div class="modal fade" id="editModal{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $product->id }}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel{{ $product->id }}">Edit Product</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="editForm{{ $product->id }}">
+                                                                @csrf
+                                                                <div class="form-group">
+                                                                    <label for="name{{ $product->id }}">Product Name</label>
+                                                                    <input type="text" class="form-control" id="name{{ $product->id }}" name="name" value="{{ $product->name }}" required>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -334,14 +296,6 @@
                 <script src="assets-dash/js/black-dashboard.min.js?v=1.0.0"></script>
                 <script src="assets-dash/demo/demo.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-                <script>
-                    $(document).ready(function() {
-                        $('#colorSelect').select2();
-                        $('#sizeSelect').select2();
-                    });
-                </script>
                 <script>
                     $(document).ready(function() {
                         $().ready(function() {
@@ -433,20 +387,48 @@
                             application: "black-dashboard-free"
                         });
                 </script>
-                {{-- --------------------------------- script de change image ----------------------------------- --}}
-                <script>
-                    function displaySelectedImage(event, imgElementId) {
-                        const selectedImageElement = document.getElementById(imgElementId);
-                        if (event.target.files && event.target.files[0]) {
-                            const reader = new FileReader();
 
-                            reader.onload = function(e) {
-                                selectedImageElement.src = e.target.result;
-                            }
-                            reader.readAsDataURL(event.target.files[0]);
-                        }
-                    }
-                </script>
+    {{-- --------------------------------- script de change image ----------------------------------- --}}
+    <script>
+        function displaySelectedImage(event, imgElementId) {
+            const selectedImageElement = document.getElementById(imgElementId);
+            if (event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    selectedImageElement.src = e.target.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+    </script>
+{{-- ------------------------------modifier name------------------------------------- --}}
+<script>
+    $(document).ready(function() {
+        $('form[id^="editForm"]').on('submit', function(e) {
+            e.preventDefault();
+            var formId = this.id;
+            var productId = formId.replace('editForm', ''); 
+            var newName = $('#name' + productId).val();
+            $.ajax({
+                url: '/products/' + productId + '/update', 
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    name: newName,
+                },
+                success: function(response) {
+                    $('#editModal' + productId).modal('hide');
+                    alert('Product updated successfully!');
+                },
+                error: function(response) {
+                    alert('Error updating product');
+                }
+            });
+        });
+    });
+    </script>
+    
 
 </body>
 

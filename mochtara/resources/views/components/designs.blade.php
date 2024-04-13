@@ -11,10 +11,6 @@
     </style>
 </head>
 <body>
-    <div class="flex flex-col">
-        <img src="img/design3.png" alt="" class="mr-2 mb-2 h-24 w-24">
-        <img src="img/design3.png" alt="" class="mr-2 mb-2 h-24 w-24">
-        <img src="img/design3.png" alt="" class="mr-2 mb-2 h-24 w-24">
-    </div>
+   
 </body>
 </html>

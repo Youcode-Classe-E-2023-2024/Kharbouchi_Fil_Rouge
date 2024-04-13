@@ -9,7 +9,7 @@
     .styled-elements {
         border: 2px dashed black;
         padding: 10px 40px;
-        height: 50%;
+        height: 60%;
         color: black;
         background-color: white;
         display: block;
@@ -17,40 +17,45 @@
     }
 
     input.styled-elements {
-        width: calc(100% - 80px);
+        width: calc(70% - 80px);
         box-sizing: border-box;
     }
 
     .container {
-            position: relative; 
-            text-align: center; 
-            width: fit-content; 
-            margin: auto; 
-        }
+        position: relative;
+        text-align: center;
+        width: fit-content;
+        margin: auto;
+    }
 
-        .container h1 {
-            position: absolute;
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            color: white; 
-            margin: 0; 
-        }
+    .container h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        margin: 0;
+    }
 
-        .styled-element {
-            border: 2px dashed black; 
-            padding: 10px 40px; 
-            background-color: rgba(0, 0, 0, 0.5); 
-            color: white; 
-            width: auto; 
-            box-sizing: border-box; 
-        }
+    .styled-element {
+        border: 2px dashed black;
+        color: white;
+        width: auto;
+        box-sizing: border-box;
+    }
 
-        img.img-fluid {
-            display: block; 
-            width: 100%; 
-            height: auto; 
-        }
+    img.img-fluid {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+</style>
+<style>
+    #imageContainer img {
+    width: 100%;  /* Make the image take up the full container width */
+    height: 100%; /* Make the image take up the full container height */
+    object-fit: contain; /* Preserve the aspect ratio of the image */
+}
 </style>
 <x-navbar />
 
@@ -60,12 +65,22 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 d-flex justify-content-center align-items-center me-md-4">
                     <x-designs />
-                    <div class="card-body bg-white rounded" style="height: 70%;">
+                    <div class="flex flex-col overflow-y-scroll h-[400px]">
+                        @foreach ($designs as $design)
+                        <img src="{{ asset('storage/' . $design->img) }}" alt="{{ $design->name ?? 'Design Image' }}"
+                            class="image-select mr-2 mb-2 h-24 w-24 border border-with">
+                            @endforeach
+                    </div>
+                    
+                    <div class="card-body bg-white rounded" style="height: 400px;">
                         <div class="d-flex justify-content-center align-items-center position-relative"
                             style="height: 100%;">
-                                <input type="text" ng-model="Your_text" placeholder="Enter Your text her"
-                                    class="styled-elements">
-                            <button type="submit" class="position-absolute"
+                            <div id="inputOrImageContainer"
+                                style="display: flex; justify-content: center; align-items: center; height: 100%;width:90%;">
+                                <input type="text" contenteditable="true" ng-model="Your_text"
+                                    placeholder="Enter Your text her" id="yourTextInput" class="styled-elements">
+                            </div>
+                            <button type="submit" class="position-absolute" id="styleButton"
                                 style="background:#27a776;margin-right:10px;margin-bottom:10px;bottom: 0; right: 0; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; padding: 0;">
                                 <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -83,28 +98,162 @@
                                        l55.921,55.921l-83.786,27.866L66.55,326.731z M141.411,373.307l-65.516-65.516L299.316,84.37l65.516,65.517L141.411,373.307z" />
                                 </svg>
                             </button>
+                            <button type="button" class="position-absolute" id="changeButton"
+                                style="background:#27a776; margin-left:10px; margin-bottom:10px; bottom: 0; left: 0; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; padding: 0;">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5953/5953659.png " alt="" title="" class="img-small" style="width: 20px; height: 20px;">
+                            </button>
+                            <div id="styleOptions" class="position-absolute"
+                                style="display:none; flex-direction: column; right: 0px; border-radius: 5px; padding: 10px;">
+                                <button onclick="applyStyle('bold')"
+                                    style ="background:#27a776;margin-top:10px; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; padding: 0; color:black;">B</button>
+                                <button onclick="applyStyle('italic')"
+                                    style ="background:#27a776;margin-top:10px; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; padding: 0; color:black;">I</button>
+                                <button onclick="applyStyle('underline')"
+                                    style ="background:#27a776;margin-top:10px; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; padding: 0; color:black;">U</button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-5 justify-content-center">
-                        <div class="container">
-                            <h1 class="styled-element" style="height: 40%;width:27%;">@{{ Your_text }}</h1>
-                            <img src="img/pa_tshirt.png"
-                                alt="image" class="img-fluid">
-                        </div>
+                    <div class="container">
+                        <h1 id="styledText" class="styled-element"
+                            style="height: 32%;width:27%;color:#000000;text-align:center;text-wrap: balance;">@{{ Your_text }}
+                        </h1>
+                        <h1 id="imageContainer" class="styled-element"
+                            style="height: 32%;width:27%;text-align: center;background-position: center center;"></h1>
+                        <img src="img/pa_tshirt.png" alt="image" class="img-fluid">
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <x-size />
-                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <x-size />
                 </div>
             </div>
         </div>
     </div>
-
 </main>
 <x-footer />
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <x-link_script />
+
+{{--------------------------------styled text----------------------------}}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('styleButton').addEventListener('click', function() {
+            var styleOptions = document.getElementById('styleOptions');
+            styleOptions.style.display = styleOptions.style.display === 'none' || styleOptions.style
+                .display === '' ? 'flex' : 'none';
+        });
+    });
+
+    function applyStyle(style) {
+        var textInput = document.getElementById('yourTextInput');
+        var styledText = document.getElementById('styledText');
+
+        switch (style) {
+            case 'bold':
+                textInput.style.fontWeight = textInput.style.fontWeight === 'bold' ? '' : 'bold';
+                styledText.style.fontWeight = styledText.style.fontWeight === 'bold' ? '' : 'bold';
+                break;
+            case 'italic':
+                textInput.style.fontStyle = textInput.style.fontStyle === 'italic' ? '' : 'italic';
+                styledText.style.fontStyle = styledText.style.fontStyle === 'italic' ? '' : 'italic';
+                break;
+            case 'underline':
+                textInput.style.textDecoration = textInput.style.textDecoration === 'underline' ? '' : 'underline';
+                styledText.style.textDecoration = styledText.style.textDecoration === 'underline' ? '' : 'underline';
+                break;
+        }
+    }
+
+    function updateText() {
+        var textInput = document.getElementById('yourTextInput');
+        document.getElementById('styledText').innerText = textInput.value;
+    }
+</script>
+{{-- --------------------------------afficher l'image dans le div -------------------------- --}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        document.querySelectorAll('.image-select').forEach(image => {
+            image.addEventListener('click', function() {
+                const selectedImage = document.createElement('img');
+                selectedImage.src = this.src;
+                selectedImage.classList.add('mr-2', 'mb-2', 'h-48', 'w-48');
+
+                const container = document.getElementById('inputOrImageContainer');
+                container.innerHTML = '';
+                container.appendChild(selectedImage);
+            });
+        });
+    });
+</script>
+{{-- --------------------------------afficher l'image dans le t-shirt -------------------------- --}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.image-select').forEach(image => {
+            image.addEventListener('click', function() {
+                const imageContainer = document.getElementById('imageContainer');
+                imageContainer.innerHTML = ''; 
+    
+                const selectedImage = document.createElement('img');
+                selectedImage.src = this.src;
+                selectedImage.classList.add('img-fluid');
+    
+                imageContainer.appendChild(selectedImage);
+                imageContainer.style.display = 'block';
+    
+                document.getElementById('styledText').style.display = 'none';
+            });
+        });
+    });
+    </script>
+    
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputContainer = document.getElementById('inputOrImageContainer');
+        const imageContainer = document.getElementById('imageContainer');
+        const styledText = document.getElementById('styledText');
+    
+        document.getElementById('changeButton').addEventListener('click', function() {
+            if (imageContainer.innerHTML !== '') {
+                imageContainer.innerHTML = '';
+                imageContainer.style.display = 'none';
+                if (!inputContainer.querySelector('input')) {
+                    inputContainer.innerHTML = `
+                        <input type="text" contenteditable="true" ng-model="Your_text"
+                        placeholder="Enter Your text here" id="yourTextInput" class="styled-elements">
+                    `;
+                }
+                inputContainer.style.display = 'flex';
+                styledText.style.display = 'block';
+            }
+        });
+        document.getElementById('yourTextInput')?.addEventListener('input', function() {
+            styledText.innerText = this.value;
+        });
+    });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.image-select').forEach(image => {
+                image.addEventListener('click', function() {
+                    const styledText = document.getElementById('styledText');
+                    styledText.style.backgroundImage = `url('${this.src}')`;
+                    styledText.innerText = '';
+                });
+            });
+            document.getElementById('changeButton').addEventListener('click', function() {
+                const styledText = document.getElementById('styledText');
+                if (styledText.style.backgroundImage !== '') {
+                    styledText.style.backgroundImage = ''; 
+                    styledText.innerHTML = "@{{ Your_text }} "; 
+                }
+            });
+        });
+        </script>
+        
 
 </body>
 

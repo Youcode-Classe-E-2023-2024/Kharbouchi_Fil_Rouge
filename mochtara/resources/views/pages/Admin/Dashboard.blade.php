@@ -57,9 +57,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/arabe">
-                            <i class="tim-icons icon-world"></i>
-                            <p>RTL Support</p>
+                        <a href="/new_product">
+                            <i class="fas fa-box"></i>
+                            <p>Product</p>
                         </a>
                     </li>
                 </ul>
@@ -87,12 +87,6 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navigation">
                         <ul class="navbar-nav ml-auto">
-                            <li class="search-bar input-group">
-                                <button class="btn btn-link" id="search-button" data-toggle="modal"
-                                    data-target="#searchModal"><i class="tim-icons icon-zoom-split"></i>
-                                    <span class="d-lg-none d-md-block">Search</span>
-                                </button>
-                            </li>
                             <li class="dropdown nav-item">
                                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                                     <div class="photo">
