@@ -38,7 +38,7 @@
     }
 
     .styled-element {
-        border: 2px dashed black;
+       
         color: white;
         width: auto;
         box-sizing: border-box;
@@ -52,14 +52,35 @@
 </style>
 <style>
     #imageContainer img {
-    width: 100%;  /* Make the image take up the full container width */
-    height: 100%; /* Make the image take up the full container height */
-    object-fit: contain; /* Preserve the aspect ratio of the image */
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+}
+#border {
+    border-right: none; 
+}
+
+#border {
+    border-top-left-radius: 8px; 
+    border-bottom-left-radius: 8px; 
 }
 </style>
 <x-navbar />
 
-<main id="main" data-aos="fade" data-aos-delay="1500" ng-app="">
+<main id="main" data-aos="fade" data-aos-delay="1500" style="position: relative; overflow-x:hidden;" ng-app="">
+    <div onmouseout="hovredireturn()" id="border" onmouseover="hovredi()" class="hovermebaby" style="position: absolute; height: 40px; width: 35px; top: 350px; right: 0; z-index: 100;background:#27a776;" >
+        <svg id="blue_copy" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="height: 40px;width:40px;">
+            <g id="Layer_8_copy_4">
+                <path d="M58.644,27.26v8.294c0,0.571-0.305,1.1-0.8,1.385L37.632,48.608c-1.066,0.616-1.066,2.155,0,2.771l20.212,11.669c0.495,0.286,0.8,0.814,0.8,1.385v8.294c0,1.231-1.333,2.001-2.399,1.385L16.869,51.379c-1.066-0.616-1.066-2.155,0-2.771l39.375-22.733C57.311,25.259,58.644,26.029,58.644,27.26z" fill="#000000" />
+            </g>
+        </svg>
+    </div>
+    
+    <div style=" display: flex; align-items: center; justify-content: center; transform: translateX(100%); position: absolute; top: 350px;right: 0;height: 100px;width: 200px;background: #fff;z-index: 10;" class="flex tomove ">
+        @foreach($categories as $category)
+<img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" style="background: #27a776;border:#fff 1px;height:50px;width:50px;margin-left:10px;"data-image-url="{{ asset('storage/' . $category->image) }}" class="image-sele">
+@endforeach
+    </div>
     <div class="page-header d-flex align-items-center">
         <div class="container position-relative">
             <div class="row justify-content-center">
@@ -71,7 +92,7 @@
                             class="image-select mr-2 mb-2 h-24 w-24 border border-with">
                             @endforeach
                     </div>
-                    
+
                     <div class="card-body bg-white rounded" style="height: 400px;">
                         <div class="d-flex justify-content-center align-items-center position-relative"
                             style="height: 100%;">
@@ -121,13 +142,15 @@
                         </h1>
                         <h1 id="imageContainer" class="styled-element"
                             style="height: 32%;width:27%;text-align: center;background-position: center center;"></h1>
-                        <img src="img/pa_tshirt.png" alt="image" class="img-fluid">
+                        <img src="https://www.centraltshirts.com/cdn/shop/files/AdultHoodie-NoL.png?v=1709139072" alt="image" id="main-image" class="img-fluid">
                     </div>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <x-size />
+                <div class="d-flex justify-content-center align-items-center">
+                    <x-size /> 
+                   
                 </div>
             </div>
+            
         </div>
     </div>
 </main>
@@ -208,6 +231,36 @@
     });
     </script>
     
+{{-- --------------------------------afficher pour choisir catégorie for design-------------------------- --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hoverDiv = document.getElementById('border'); 
+            const moveDiv = document.querySelector('.tomove'); 
+        
+        hoverDiv.addEventListener('click', function() {
+    
+                if (moveDiv.style.transform === 'translateX(100%)' || moveDiv.style.transform === '') {
+                    moveDiv.style.transform = 'translateX(0%)'; 
+                } else {
+                    moveDiv.style.transform = 'translateX(100%)'; 
+                }
+            });
+            
+        });
+</script>
+{{-- --------------------------------choisir autre caterie for design-------------------------- --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.image-sele').forEach(item => {
+            item.addEventListener('click', function () {
+                const mainImage = document.getElementById('main-image'); 
+                mainImage.src = this.getAttribute('data-image-url');
+                mainImage.alt = this.alt;
+            });
+        });
+    });
+</script>
+
 
 
 <script>
